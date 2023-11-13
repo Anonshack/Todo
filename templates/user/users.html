@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Users List</title>
+    </head>
+    <body>
+        <a href="{% url 'home' %}"><h2>Users List</h2></a>
+        <ul>
+            {% for user in users %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'this-user' user.pk %}">
+                        <li style="color: blue; font-weight: bold;">Welcome, Admin</li>
+                    </a>
+                {% else %}
+                    {% if user.is_authenticated %}
+                        {% if user == request.user %}
+                            <a href="{% url 'this-user' user.pk %}">
+                                <li style="color: black;">{{ user.username }} (Your Todo)</li>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'this-user' user.pk %}">
+                                <li>{{ user.username }}</li>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <li>{{ user.username }}</li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </body>
+    </html>
+{% endblock %}

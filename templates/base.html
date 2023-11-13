@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/user.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-icon {
+            margin-right: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #428bca;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+            <a href="{% url 'home' %}"><h3 style="color: green;"><i class="gg-user user-icon"></i>Welcome, Admin</h3></a>
+        {% else %}
+            <a href="{% url 'home' %}"><h3 style="color: blue;"><i class="gg-user user-icon"></i>Welcome, {{ user.username }}</h3></a>
+        {% endif %}
+        <p><a href="{% url 'users-list' %}">Users List</a></p>
+        <p><a href="{% url 'add-todo' %}">Add Todo</a></p>
+        <p><a href="{% url 'todo-list' %}">Todo List</a></p>
+        <p><a href="/accounts/logout">Logout</a></p>
+    {% else %}
+        <a href="/accounts/login/" style="font-size: 21px;">Login</a> || <a href="/accounts/register/" style="font-size: 21px;">Registrations</a><br><br><br>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
